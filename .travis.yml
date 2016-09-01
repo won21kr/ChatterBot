@@ -9,11 +9,17 @@ os:
   - linux
   - windows
 
+env:
+  - DJANGO_VERSION=1.8.11
+  - DJANGO_VERSION=1.9.8
+  - DJANGO_VERSION=1.10
+
 install:
   - pip install codeclimate-test-reporter
   - pip install coveralls
   - pip install nltk
   - pip install -r requirements.txt
+  - pip install -q Django==$DJANGO_VERSION
 
 addons:
     code_climate:
@@ -24,6 +30,7 @@ services:
 
 script:
   - nosetests  --with-coverage --cover-package=chatterbot
+  - examples/django_app/manage.py test
 
 after_success:
   - coveralls
